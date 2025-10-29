@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { useAuth } from "./app/context/AuthContext";
-import DashboardPage from "./app/dashboard/page";
-import MemoraLandingPage from "./app/pages/index"; // tu landing page
-import AuthTabs from "./app/components/AuthTabs";
+import { useAuth } from "./context/AuthContext";
+import DashboardPage from "./dashboard/page";
+import MemoraLandingPage from "./pages/index"; // tu landing page
+import AuthTabs from "./components/AuthTabs";
 
 export default function Home() {
   const { isLoggedIn } = useAuth();
