@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useCallback } from "react";
-import ProgressBar from "./../dashboard/revision/components/ProgressBar";
-import Flashcard from "./../dashboard/revision/components/Flashcard";
-import RepeatGraph from "./../dashboard/revision/components/Repeatgraph";
-import ReviewCalendar from "./../dashboard/revision/components/ReviewCalendar";
-import DeckList from "./../dashboard/revision/components/DeckList";
-import { MOCK_FLASHCARD, MOCK_DECKS, MOCK_REPEAT_DATA } from "./../dashboard/revision/data/mockData";
+import ProgressBar from "../dashboard/revision/components/ProgressBar";
+import Flashcard from "../dashboard/revision/components/Flashcard";
+import RepeatGraph from "../dashboard/revision/components/Repeatgraph";
+import ReviewCalendar from "../dashboard/revision/components/ReviewCalendar";
+import DeckList from "../dashboard/revision/components/DeckList";
+import { MOCK_FLASHCARD, MOCK_DECKS, MOCK_REPEAT_DATA } from "../dashboard/revision/data/mockData";
 import { Repeat, Settings, Boxes } from "lucide-react";
 
 import { useRouter } from "next/navigation";

@@ -1,8 +1,8 @@
 // app/dashboard/layout.tsx
 "use client";
 import React from "react";
-import Sidebar from "../../app/components/Sidebar";
-import Header from "../../app/components/Header";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
 const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

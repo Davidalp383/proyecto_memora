@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import Header from "@/app/components/HeaderDashboard";
-import Sidebar from "@/app/components/SidebarDashboard";
+import Header from "../components/HeaderDashboard";
+import Sidebar from "../components/SidebarDashboard";
 
 // Importa aquí tu contenido principal (dashboard)
-import AppContent from "@/app/components/AppContent";
+import AppContent from "../components/AppContent";
 
 const Page: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);

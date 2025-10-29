@@ -4,7 +4,7 @@ import React from "react";
 import AuthTabs from "../components/AuthTabs";
 import WelcomeSection from "../components/WelcomeSection";
 import { useAuth } from "../context/AuthContext";
-import DashboardPage from "../../app/dashboard/page";
+import DashboardPage from "../dashboard/page";
 
 const RegisterPage: React.FC = () => {
   const { isLoggedIn } = useAuth();
