@@ -182,8 +182,8 @@ const RepetitionPage: React.FC = () => {
 
     // --- CAMBIO CLAVE 2: Filtrar tarjetas según el mazo seleccionado ---
     const filteredCards = useMemo(
-      () => allCards.filter(card => card.deckId === selectedDeckId),
-      [allCards, selectedDeckId]
+    () => allCards?.filter(card => card.deckId === selectedDeckId) || [],
+    [allCards, selectedDeckId]
     );
 
     const handleDeckCreate = (newDeck: DeckType) => {
@@ -269,23 +269,17 @@ const RepetitionPage: React.FC = () => {
                 <div className="lg:col-span-2 flex justify-center items-start pt-8 min-h-[400px]">
                     {mode === 'review' 
                         ? currentCard
-                            ? <Flashcard 
-                                key={currentCard.id}  // ✅ Agregado aquí
-                                card={currentCard} 
-                                onResponse={handleCardResponse} 
-                            />
-                            : <p className="text-gray-500 text-center">No hay tarjetas disponibles en este mazo.</p>
+                        ? <Flashcard key={currentCard.id} card={currentCard} onResponse={handleCardResponse} />
+                        : <p className="text-gray-500 text-center">No hay tarjetas disponibles en este mazo.</p>
                         : <FlashcardManager
                             deckId={selectedDeckId}
                             onCreateCard={handleCardCreate}
                             currentUserId={currentUserId}
                             onCreateDeck={(newDeck) => {
-                                setDecks(prev => [...prev, { ...newDeck, cardCount: 0 }]); 
-                                setSelectedDeckId(newDeck.id);
+                            setDecks(prev => [...prev, { ...newDeck, cardCount: 0 }]); 
+                            setSelectedDeckId(newDeck.id);
                             }}
-                 />
-
-
+                        />
                     }
                 </div>
                 <div className="lg:col-span-1 space-y-6"><ReviewCalendar /><RepeatGraph data={repeatData}/></div>
