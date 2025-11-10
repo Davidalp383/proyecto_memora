@@ -1,6 +1,7 @@
-import postgres from 'postgres'
+import postgres from "postgres";
 
-const connectionString = process.env.DATABASE_URL
-const sql = postgres(connectionString)
+const sql = postgres(process.env.DATABASE_URL, {
+  ssl: { rejectUnauthorized: false },
+});
 
-export default sql
+export default sql;
