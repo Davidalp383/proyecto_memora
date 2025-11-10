@@ -7,13 +7,16 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const deckId = searchParams.get("deckId");
 
-    const flashcards = await sql`SELECT * FROM flashcard
-                                 ${deckId ? sql`WHERE deck_id=${deckId}` : sql``}`;
+    const flashcards = await sql`
+      SELECT *
+      FROM "flashcards"
+      ${deckId ? sql`WHERE deck_id=${deckId}` : sql``}
+      ORDER BY id
+    `;
 
-    // Evita errores de .map si no hay tarjetas
     return NextResponse.json(flashcards ?? []);
-  } catch (err) {
-    console.error("Error en GET /flashcards:", err);
+  } catch (err: any) {
+    console.error("❌ Error en GET /flashcards:", err);
     return NextResponse.json({ error: "Error al obtener las tarjetas" }, { status: 500 });
   }
 }
@@ -27,13 +30,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
     }
 
-    const [flashcard] = await sql`INSERT INTO flashcard (front, back, deck_id)
-                                   VALUES (${front}, ${back}, ${deckId})
-                                   RETURNING *`;
+    const [flashcard] = await sql`
+      INSERT INTO "flashcards" (front, back, deck_id)
+      VALUES (${front}, ${back}, ${deckId})
+      RETURNING *
+    `;
 
     return NextResponse.json(flashcard);
-  } catch (err) {
-    console.error("Error en POST /flashcards:", err);
+  } catch (err: any) {
+    console.error("❌ Error en POST /flashcards:", err);
     return NextResponse.json({ error: "Error al crear la tarjeta" }, { status: 500 });
   }
 }

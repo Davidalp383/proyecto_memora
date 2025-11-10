@@ -12,7 +12,7 @@ export async function GET() {
       ORDER BY d.name
     `;
     return NextResponse.json(decks);
-  } catch (err) {
+  } catch (err: any) {
     console.error("❌ Error al obtener mazos:", err);
     return NextResponse.json({ error: "No se pudieron obtener los mazos." }, { status: 500 });
   }
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(deck);
   } catch (err: any) {
-    console.error("Error creando mazo:", err);
+    console.error("❌ Error creando mazo:", err);
     return NextResponse.json({ error: "No se pudo crear el mazo." }, { status: 500 });
   }
 }
