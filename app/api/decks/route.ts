@@ -38,8 +38,8 @@ export async function POST(req: Request) {
 
     // Crear mazo
     const [deck] = await sql`
-      INSERT INTO "decks" (name, description, user_id)
-      VALUES (${name}, ${description || null}, ${userId})
+      INSERT INTO "decks" (name, user_id)
+      VALUES (${name}, ${userId})
       RETURNING *
     `;
 
