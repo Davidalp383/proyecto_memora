@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import sql from "../../../db";
 
-// Obtener tarjetas por mazo
+// --- Obtener tarjetas por mazo ---
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -14,14 +14,22 @@ export async function GET(req: Request) {
       ORDER BY id
     `;
 
-    return NextResponse.json(flashcards ?? []);
+    // Transformar deck_id -> deckId para que coincida con el frontend
+    const formatted = flashcards.map((f: any) => ({
+      id: f.id,
+      front: f.front,
+      back: f.back,
+      deckId: f.deck_id,
+    }));
+
+    return NextResponse.json(formatted);
   } catch (err: any) {
     console.error("❌ Error en GET /flashcards:", err);
     return NextResponse.json({ error: "Error al obtener las tarjetas" }, { status: 500 });
   }
 }
 
-// Crear una nueva tarjeta
+// --- Crear una nueva tarjeta ---
 export async function POST(req: Request) {
   try {
     const { front, back, deckId } = await req.json();
@@ -36,7 +44,15 @@ export async function POST(req: Request) {
       RETURNING *
     `;
 
-    return NextResponse.json(flashcard);
+    // Retornar con deckId para el frontend
+    const formatted = {
+      id: flashcard.id,
+      front: flashcard.front,
+      back: flashcard.back,
+      deckId: flashcard.deck_id,
+    };
+
+    return NextResponse.json(formatted);
   } catch (err: any) {
     console.error("❌ Error en POST /flashcards:", err);
     return NextResponse.json({ error: "Error al crear la tarjeta" }, { status: 500 });
