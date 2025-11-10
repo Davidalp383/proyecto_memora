@@ -1,50 +1,39 @@
 import { NextResponse } from "next/server";
-import prisma from "../../../lib/prisma";
+import sql from "../../../db";
 
-// ✅ Obtener tarjetas por mazo
+// Obtener tarjetas por mazo
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const deckId = searchParams.get("deckId");
 
-    const flashcards = await prisma.flashcard.findMany({
-      where: deckId ? { deckId } : undefined,
-    });
+    const flashcards = await sql`SELECT * FROM flashcard
+                                 ${deckId ? sql`WHERE deck_id=${deckId}` : sql``}`;
 
-    // Si no hay tarjetas, devuelve un array vacío (evita errores .map)
+    // Evita errores de .map si no hay tarjetas
     return NextResponse.json(flashcards ?? []);
-  } catch (error) {
-    console.error("Error en GET /flashcards:", error);
-    return NextResponse.json(
-      { error: "Error al obtener las tarjetas" },
-      { status: 500 }
-    );
+  } catch (err) {
+    console.error("Error en GET /flashcards:", err);
+    return NextResponse.json({ error: "Error al obtener las tarjetas" }, { status: 500 });
   }
 }
 
-// ✅ Crear una nueva tarjeta
+// Crear una nueva tarjeta
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { front, back, deckId } = body;
+    const { front, back, deckId } = await req.json();
 
     if (!front || !back || !deckId) {
-      return NextResponse.json(
-        { error: "Faltan campos obligatorios" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
     }
 
-    const flashcard = await prisma.flashcard.create({
-      data: { front, back, deckId },
-    });
+    const [flashcard] = await sql`INSERT INTO flashcard (front, back, deck_id)
+                                   VALUES (${front}, ${back}, ${deckId})
+                                   RETURNING *`;
 
     return NextResponse.json(flashcard);
-  } catch (error) {
-    console.error("Error en POST /flashcards:", error);
-    return NextResponse.json(
-      { error: "Error al crear la tarjeta" },
-      { status: 500 }
-    );
+  } catch (err) {
+    console.error("Error en POST /flashcards:", err);
+    return NextResponse.json({ error: "Error al crear la tarjeta" }, { status: 500 });
   }
 }
